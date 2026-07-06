@@ -43,7 +43,7 @@ Because the project is classified **Feature Film** (not commercial/reality), the
 - Cast: 5 TX of 8 = **62.5%** ✔ (needs ≥55%)
 - Combined: 37 of 53 = 69.8%
 
-**Production days (Locations tab):** 26 Texas days (5/13–6/8/25) of 32 total listed (Seoul 11/6/24; London 7/10/25; Italy 7/13/25; China 11/9–11/25) = **81.3%** ✔ — and this excludes the Oct 13–15, 2025 Texas days (Finding C), which only improve the ratio.
+**Production days (Locations tab):** 26 Texas days (5/13–6/8/25) of 32 total listed (Seoul 11/6/24; London 7/10/25; Italy 7/13/25; China 11/9–11/25) = **81.3%** ✔ — becomes 26 of 35 = **74.29%** once the Oct 13–15, 2025 New York days are added (Finding C); still clears 60%.
 
 ---
 
@@ -61,10 +61,11 @@ Invoice **13-331** (Dallas TelePrompter / Catherine Lopez) appears twice:
 
 Unless the true invoice total is $13,557.88+, this claims the same $4,950 twice. Recommended fix: keep the full $8,607.88 on the payroll worksheet (labor + kit for one contractor, backed by the kit invoice) and **delete the vendor row**, or reduce the payroll row to $3,657.88. Also list Lopez in the Crew List Notes as "DBA Dallas TelePrompter" per the worksheet instructions (loan-out/company names go in Notes).
 
-### C. October 13–15, 2025 Texas days and any 2025–26 Texas post spend are missing
-Email record (Matt Mundy, 12/11/25: "October Days Cliburn… Oct 13, 14, 15 on the TMIIIP") confirms three additional Texas production days that are **not in the Locations tab**, and any payroll/vendor spend from those days is not in the expenditure worksheets. A Texas audio mix was also being considered (July 2025 thread with TFC). Before submission:
-- Add the Oct 13–15 locations rows and the associated eligible expenditures.
-- Confirm the final "Date of Last Day of Texas Expenditure" — the contract (§5.3–5.4) requires that report within 14 days of the last Texas expenditure and the full submission within **60 days** of it. The quarterly reports (latest filed 6/1/26, acknowledged by Will Zech) show TFC knows the project is still closing out, but get the submission window confirmed in writing when you notify them of the last expenditure date.
+### C. October 13–15, 2025 production days (New York) are missing from the Locations tab; last-Texas-expenditure date must be confirmed
+Email record (Matt Mundy, 12/11/25: "October Days Cliburn… Oct 13, 14, 15 on the TMIIIP") documents three additional production days. **Per Steven (7/6/26): these were New York days — the spend is not eligible and must not be added to the expenditure worksheets.** However, the Locations tab must list ALL production days in and out of Texas (they form the denominator of the 60% test):
+- Add three NY rows for 10/13–10/15/2025 with "Non-TX" in Notes. Texas ratio becomes 26 of 35 days = **74.29%** — still clears 60%.
+- Verify no October NY costs are sitting in the CC/vendor tabs (none found in this review).
+- **Deadline risk:** with the October days being NY, the latest Texas expenditure on record is the 9/25/25 American Airlines flight for edit reviews (CC #4016) — unless the Texas audio mix (July 2025 thread with TFC) happened. If 9/25/25 was the last Texas expenditure, the contractual 60-day submission window (§5.4) nominally closed ~11/24/25. TFC's continued acknowledgment of quarterly reports through 6/1/26 suggests they are not treating the project as lapsed, but the contract also requires a "Date of Last Day of Texas Expenditure" report within 14 days of that date (§5.3), and no such report was found in the email record. Get the last-expenditure date and the submission timeline confirmed by TFC **in writing** before submitting.
 
 ### D. Pre–Effective-Date spend needs the Pre-Term Costs blessing
 The contract was executed 4/11/25, but roughly **$64.7k of submitted spend predates it** (Red Productions first payment 3/29/25 $33,673.75; ~$25.5k of credit-card items 12/12/24–4/10/25; payroll for Newton 2/1/25 $4,625 and Hudson Soto 2/9/25 $903.92). Contract §6.5 allows "Pre-Term Costs" only if **(1) approved by the OOG** and (4)/(5) within **120 days** before the Term (i.e., on/after 12/12/2024, unless OOG lengthens it). Given the award letter was 10/15/24 and TFC has been fully informed, this is likely routine — but ask the incentives team to confirm in writing that pre-4/11/25 production costs are treated as approved Pre-Term Costs.
@@ -111,7 +112,7 @@ CC row #2900 has no pay date and no card/check reference; the note says "see tha
 - Duplicate receipt numbers #2544, #2545, #2559 each cover two charges — if one receipt truly has multiple charges, keep the note; otherwise renumber so backup reconciles 1:1.
 
 **Locations tab**
-- Add Oct 13–15, 2025 rows (Finding C).
+- Add Oct 13–15, 2025 New York rows with "Non-TX" in Notes (Finding C).
 - Fill in State = "TX" and missing zips on all Texas rows; fix "Main St, Fort" street glitch; fix "Musuem" → "Museum".
 - Add Notes = "Non-TX (Korea/England/Italy/China)" on the six out-of-state rows, per instructions.
 - 6/3/2025 rows are duplicated (Bass Hall + Red Productions each appear twice) — delete the duplicate pair.
@@ -156,7 +157,7 @@ CC row #2900 has no pay date and no card/check reference; the note says "see tha
 | Total Crew / TX Crew / % | 45 / 32 / 71.11% |
 | Total Cast / TX Cast / % | 8 / 5 / 62.50% |
 | Combined TX % | 69.81% |
-| Total Production Days / TX Days / % | 32 / 26 / 81.25% (becomes 35 / 29 / 82.86% with Oct 13–15) |
+| Total Production Days / TX Days / % | 35 / 26 / 74.29% (including Oct 13–15 NY days) |
 
 *(These shift once Findings B–D are resolved — recompute before signing; the worksheet is signed under penalty of perjury.)*
 
@@ -164,7 +165,7 @@ CC row #2900 has no pay date and no card/check reference; the note says "see tha
 
 1. Decide the Lopez/Dallas TelePrompter split and remove the $4,950 double-count (Finding B).
 2. Canvass the 37 TX crew/cast for veteran status; if ≥3, collect DD214s and update lists; if not, adjust grant expectations to 5% (Finding A).
-3. Add Oct 13–15, 2025 locations + expenditures and any other 2025–26 TX post spend (audio mix?) (Finding C).
+3. Add Oct 13–15, 2025 to the Locations tab as Non-TX (New York) rows — no expenditures; add any Texas audio-mix spend if it occurred (Finding C).
 4. Email TFC (Will Zech / Cassandra Ariztegui): confirm pre-term cost treatment for pre-4/11/25 spend, ask specifically about the 7/22/24 and 12/3/24 Airbnb items, and confirm the last-Texas-expenditure date and 60-day submission window (Finding D).
 5. Fix or remove Liz Hotel #2900; verify GoVision ×2 invoices (Findings E–F).
 6. Prepare asset-disposition statements for the Sound Productions drive and LOOP purchase (if purchase).
