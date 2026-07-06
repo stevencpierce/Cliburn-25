@@ -27,16 +27,20 @@ Because the project is classified **Feature Film** (not commercial/reality), the
 
 ## 2. Where the numbers stand (from the worksheet workbook)
 
-| Category | Submitted |
-|---|---|
-| IC Payroll | $142,381.58 |
-| Vendor / AP | $87,305.75 |
-| Credit Card | $101,564.18 |
-| **Total submitted** | **$331,251.51** |
+**Updated 7/6/26 (live sheet):** the payroll double-count (Finding B) has been fixed — the $4,950 teleprompter kit was removed from Lopez's payroll row (payroll now $137,431.58) and remains once on the vendor side. Three of the four April screening-trip rows have been added to the Credit Card tab (both Kimpton folios + Pax & Beneficia); the small **Cafe Modern $8.66 row is still to be added**.
+
+| Category | Submitted (live) | Prior |
+|---|---|---|
+| IC Payroll | $137,431.58 | $142,381.58 |
+| Vendor / AP | $87,305.75 | $87,305.75 |
+| Credit Card | $102,461.46 | $101,564.18 |
+| **Total submitted** | **$327,198.79** | $331,251.51 |
+
+*(Adding the Cafe Modern $8.66 row brings Credit Card to $102,470.12 and the total to **$327,207.45**.)*
 
 - All Submitted Amount cells and SUBMITTED TOTALs are true Excel formulas (verified — no hard-keyed sums) and every payroll row's components sum to its Submitted Amount. ✔
-- Headroom over the $250,000 minimum: **$81,251.51**. Worst case, if every at-risk item identified below (~$71.7k) were disallowed, the total would fall to ≈ $259.5k — still qualified, but with only ~$9.5k of margin. Protecting the questioned items matters.
-- Grant expectation: at 5% of $331k ≈ **$16,563**; at 7.5% ≈ **$24,844** (both under the $36,452 cap). The difference between the two is the Veteran bonus — see Finding A.
+- Headroom over the $250,000 minimum: **~$77,200**. Worst case, if every at-risk item identified below were disallowed, the total would still land above $255k — qualified, but margin matters, so protect the questioned items.
+- Grant expectation: at 5% of $327k ≈ **$16,360**; at 7.5% ≈ **$24,540** (both under the $36,452 cap). The difference between the two is the Veteran bonus — see Finding A.
 
 **Residency (worksheet counts):**
 - Crew: 32 TX of 45 = **71.1%** ✔ (needs ≥55%)
@@ -54,12 +58,9 @@ The contract's 2.5% bonus is the **Veterans** award (Exhibit B), which requires 
 - If any Texas-resident crew/cast are honorably discharged veterans, collect DD214s now and mark them "V" (and add "Veteran" in Notes).
 - If none are veterans, plan on the grant paying at 5% (~$16.6k on current numbers), not 7.5%. The underutilized-area bonus cannot be swapped in retroactively — the guidelines state the bonus election is made at application.
 
-### B. $4,950 teleprompter kit rental is double-counted
-Invoice **13-331** (Dallas TelePrompter / Catherine Lopez) appears twice:
-- IC Payroll row: Lopez, Catherine 06/13/2025 — gross $3,657.88 **+ kit rental $4,950** = $8,607.88 submitted
-- Vendor row: Dallas TelePrompter 07/12/2025, invoice 13-331, "2nd payment… less payroll $3,657.88" — **$4,950** submitted
-
-Unless the true invoice total is $13,557.88+, this claims the same $4,950 twice. Recommended fix: keep the full $8,607.88 on the payroll worksheet (labor + kit for one contractor, backed by the kit invoice) and **delete the vendor row**, or reduce the payroll row to $3,657.88. Also list Lopez in the Crew List Notes as "DBA Dallas TelePrompter" per the worksheet instructions (loan-out/company names go in Notes).
+### B. $4,950 teleprompter kit rental double-count — ✅ RESOLVED (7/6/26)
+Invoice **13-331** (Dallas TelePrompter / Catherine Lopez) had appeared twice. **Fixed:** the kit was removed from Lopez's payroll row, so payroll now shows Lopez at $3,657.88 (labor only) and the $4,950 kit is claimed once on the vendor row. Payroll total dropped from $142,381.58 → $137,431.58 accordingly.
+- Remaining nicety: list Lopez in the Crew List Notes as "DBA Dallas TelePrompter" per the worksheet instructions (loan-out/company names go in Notes).
 
 ### C. October 13–15, 2025 production days (New York) are missing from the Locations tab; last-Texas-expenditure date must be confirmed
 Email record (Matt Mundy, 12/11/25: "October Days Cliburn… Oct 13, 14, 15 on the TMIIIP") documents three additional production days. **Per Steven (7/6/26): these were New York days — the spend is not eligible and must not be added to the expenditure worksheets.** However, the Locations tab must list ALL production days in and out of Texas (they form the denominator of the 60% test):
@@ -114,7 +115,7 @@ CC row #2900 has no pay date and no card/check reference; the note says "see tha
 - Fix typo "Technitian" → "Technician" (also on Cast List).
 
 **Vendor / CC tabs**
-- Strip the internal "REVIEW:…" annotations from Notes before submission — Notes should carry only brief audit explanations ("Tip Removed", "Minus alcohol $106.35", "less NY rides"), not open questions to yourselves.
+- Strip the internal "REVIEW:…"/"VERIFY…" annotations from Notes before submission — Notes should carry only brief audit explanations ("Tip Removed", "Minus alcohol $106.35", "less NY rides"), not open questions to yourselves. **In progress 7/6/26:** all REVIEW/VERIFY notes are being cleared except **Liz Hotel (CC G135)**, which stays flagged pending vendor/folio clarification. See the exact cell list handed off separately.
 - Replace "checking (2652)" with actual check numbers where they exist.
 - Remove the stray blank rows inside the CC list (rows 6 and 94) — blank separator rows are only for payroll pay periods.
 - Format reference numbers as text (several display as floats: card "2841.0", "386.0" → "0386", invoice "3573.0", "055a" is fine).
@@ -157,23 +158,23 @@ CC row #2900 has no pay date and no card/check reference; the note says "see tha
 
 ## 8. Verification Worksheet — numbers to enter (current workbook)
 
-| Field | Value |
+| Field | Value (live 7/6/26) |
 |---|---|
-| Submitted Payroll Expenditures | $142,381.58 |
+| Submitted Payroll Expenditures | $137,431.58 |
 | Submitted AP/Vendor Expenditures | $87,305.75 |
-| Submitted PC/CC Expenditures | $101,564.18 |
-| Total Submitted Expenditures | $331,251.51 |
+| Submitted PC/CC Expenditures | $102,461.46 *(→ $102,470.12 once Cafe Modern $8.66 added)* |
+| Total Submitted Expenditures | $327,198.79 *(→ $327,207.45 with Cafe Modern)* |
 | Total Crew / TX Crew / % | 45 / 32 / 71.11% |
 | Total Cast / TX Cast / % | 8 / 5 / 62.50% |
 | Combined TX % | 69.81% |
 | Total Production Days / TX Days / % | 35 / 26 / 74.29% (including Oct 13–15 NY days) |
 
-*(These shift once Findings B–D are resolved — recompute before signing; the worksheet is signed under penalty of perjury.)*
+*(Recompute once the Cafe Modern row is added and any at-risk items are resolved — recompute before signing; the worksheet is signed under penalty of perjury.)*
 
 ## 9. Recommended action list (in order)
 
-0. **IMMEDIATELY: the last Texas expenditure is confirmed as 4/23/26 (Kimpton checkout), so the 60-day window closed 6/22/26. Email TFC now to report the date and obtain written notice for the submission timeline (Finding C). Add the ~$906 of screening-trip TX expenditures to the CC worksheet (no Delta airfare; recover the itemized copy of the 4/23 restaurant receipt).**
-1. Decide the Lopez/Dallas TelePrompter split and remove the $4,950 double-count (Finding B).
+0. **IMMEDIATELY: the last Texas expenditure is confirmed as 4/23/26 (Kimpton checkout), so the 60-day window closed 6/22/26. Email TFC now to report the date and obtain written notice for the submission timeline (Finding C). — Email drafted 7/6/26.** Screening-trip rows: Kimpton ×2 + Pax added; **add the Cafe Modern $8.66 row**; recover the itemized copy of the 4/23 restaurant receipt ($39.75) before adding it.
+1. ✅ Lopez/Dallas TelePrompter double-count resolved — kit removed from payroll (Finding B).
 2. Canvass the 37 TX crew/cast for veteran status; if ≥3, collect DD214s and update lists; if not, adjust grant expectations to 5% (Finding A).
 3. Add Oct 13–15, 2025 to the Locations tab as Non-TX (New York) rows — no expenditures; add any Texas audio-mix spend if it occurred (Finding C).
 4. Email TFC (Will Zech / Cassandra Ariztegui): confirm pre-term cost treatment for pre-4/11/25 spend, ask specifically about the 7/22/24 and 12/3/24 Airbnb items, and confirm the last-Texas-expenditure date and 60-day submission window (Finding D).
