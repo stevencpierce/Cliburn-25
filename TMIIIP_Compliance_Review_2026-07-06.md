@@ -160,14 +160,14 @@ CC row #2900 has no pay date and no card/check reference; the note says "see tha
 |---|---|
 | Submitted Payroll Expenditures | $137,431.58 |
 | Submitted AP/Vendor Expenditures | $87,305.75 |
-| Submitted PC/CC Expenditures | $99,470.12 |
-| Total Submitted Expenditures | **$324,207.45** |
+| Submitted PC/CC Expenditures | $106,557.23 |
+| Total Submitted Expenditures | **$331,294.56** |
 | Total Crew / TX Crew / % | 45 / 32 / 71.11% |
 | Total Cast / TX Cast / % | 8 / 5 / 62.50% |
 | Combined TX % | 69.81% |
 | Total Production Days / TX Days / % | 37 / 28 / 75.68% |
 
-*(Live numbers as of 7/9/26: Liz Hotel $3,000 removed; GoVision ×2 and pre-window Airbnbs retained by decision; Cafe Modern $8.66 included. Grant @5% ≈ $16,210.)*
+*(Live numbers as of 7/9/26: Liz Hotel $3,000 removed. 15 CC items added by producer decision (+$7,087.11): Daniel Hsu TX Uber reimbursements, additional Airbnb/Vrbo incl. pre-window #2562 $3,441 Jul-2024, Southwest freight #3025 $698.68, misc Uber/Lyft. Some are submit-and-see (pre-window lodging highest risk). Grant @5% ≈ $16,565.)*
 
 *(Recompute once the Cafe Modern row is added and any at-risk items are resolved — recompute before signing; the worksheet is signed under penalty of perjury.)*
 
