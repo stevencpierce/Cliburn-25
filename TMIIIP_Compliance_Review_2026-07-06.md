@@ -53,10 +53,8 @@ Because the project is classified **Feature Film** (not commercial/reality), the
 
 ## 3. CRITICAL findings (resolve before submission)
 
-### A. Veteran Additional Grant Award — currently earns $0
-The contract's 2.5% bonus is the **Veterans** award (Exhibit B), which requires **≥5% of combined paid crew + cast (incl. extras) to be Texas Resident Veterans**, each with a valid DTR **plus DD214** (or equivalent discharge documentation). The Cast and Crew Lists mark **every one of the 53 people "N"** in the Veteran column. 5% of 53 = 3 people needed.
-- If any Texas-resident crew/cast are honorably discharged veterans, collect DD214s now and mark them "V" (and add "Veteran" in Notes).
-- If none are veterans, plan on the grant paying at 5% (~$16.6k on current numbers), not 7.5%. The underutilized-area bonus cannot be swapped in retroactively — the guidelines state the bonus election is made at application.
+### A. Veteran Additional Grant Award — CLOSED (7/9/26): not claimed, grant pays at 5%
+The contract's 2.5% bonus is the **Veterans** award (Exhibit B), requiring **≥5% of combined paid crew + cast to be Texas Resident Veterans** with a valid DTR **plus DD214**. **Resolved: the full TX crew/cast were emailed (7/6–7/9/26) and none identified as a current or former veteran.** The bonus is therefore not claimed; the Veteran column on the Cast and Crew Lists stays "N" for all. Grant expectation is the **5% base rate (~$16,360 on ~$327k)** — not 7.5%. No further action.
 
 ### B. $4,950 teleprompter kit rental double-count — ✅ RESOLVED (7/6/26)
 Invoice **13-331** (Dallas TelePrompter / Catherine Lopez) had appeared twice. **Fixed:** the kit was removed from Lopez's payroll row, so payroll now shows Lopez at $3,657.88 (labor only) and the $4,950 kit is claimed once on the vendor row. Payroll total dropped from $142,381.58 → $137,431.58 accordingly.
@@ -175,7 +173,7 @@ CC row #2900 has no pay date and no card/check reference; the note says "see tha
 
 0. **IMMEDIATELY: the last Texas expenditure is confirmed as 4/23/26 (Kimpton checkout), so the 60-day window closed 6/22/26. Email TFC now to report the date and obtain written notice for the submission timeline (Finding C). — Email drafted 7/6/26.** Screening-trip rows: Kimpton ×2 + Pax added; **add the Cafe Modern $8.66 row**; recover the itemized copy of the 4/23 restaurant receipt ($39.75) before adding it.
 1. ✅ Lopez/Dallas TelePrompter double-count resolved — kit removed from payroll (Finding B).
-2. Canvass the 37 TX crew/cast for veteran status; if ≥3, collect DD214s and update lists; if not, adjust grant expectations to 5% (Finding A).
+2. ✅ Veteran canvass complete — emailed all 37 TX crew/cast; none are veterans, so the bonus is not claimed and the grant is expected at 5% (Finding A).
 3. Add Oct 13–15, 2025 to the Locations tab as Non-TX (New York) rows — no expenditures; add any Texas audio-mix spend if it occurred (Finding C).
 4. Email TFC (Will Zech / Cassandra Ariztegui): confirm pre-term cost treatment for pre-4/11/25 spend, ask specifically about the 7/22/24 and 12/3/24 Airbnb items, and confirm the last-Texas-expenditure date and 60-day submission window (Finding D).
 5. Fix or remove Liz Hotel #2900; verify GoVision ×2 invoices (Findings E–F).
