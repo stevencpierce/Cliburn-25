@@ -160,8 +160,8 @@ CC row #2900 has no pay date and no card/check reference; the note says "see tha
 |---|---|
 | Submitted Payroll Expenditures | $137,431.58 |
 | Submitted AP/Vendor Expenditures | $87,305.75 |
-| Submitted PC/CC Expenditures | $106,557.23 |
-| Total Submitted Expenditures | **$331,294.56** |
+| Submitted PC/CC Expenditures | $106,542.17 |
+| Total Submitted Expenditures | **$331,279.50** |
 | Total Crew / TX Crew / % | 45 / 32 / 71.11% |
 | Total Cast / TX Cast / % | 8 / 5 / 62.50% |
 | Combined TX % | 69.81% |
