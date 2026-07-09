@@ -160,12 +160,14 @@ CC row #2900 has no pay date and no card/check reference; the note says "see tha
 |---|---|
 | Submitted Payroll Expenditures | $137,431.58 |
 | Submitted AP/Vendor Expenditures | $87,305.75 |
-| Submitted PC/CC Expenditures | $102,461.46 *(→ $102,470.12 once Cafe Modern $8.66 added)* |
-| Total Submitted Expenditures | $327,198.79 *(→ $327,207.45 with Cafe Modern)* |
+| Submitted PC/CC Expenditures | $99,470.12 |
+| Total Submitted Expenditures | **$324,207.45** |
 | Total Crew / TX Crew / % | 45 / 32 / 71.11% |
 | Total Cast / TX Cast / % | 8 / 5 / 62.50% |
 | Combined TX % | 69.81% |
-| Total Production Days / TX Days / % | 35 / 26 / 74.29% (including Oct 13–15 NY days) |
+| Total Production Days / TX Days / % | 37 / 28 / 75.68% |
+
+*(Live numbers as of 7/9/26: Liz Hotel $3,000 removed; GoVision ×2 and pre-window Airbnbs retained by decision; Cafe Modern $8.66 included. Grant @5% ≈ $16,210.)*
 
 *(Recompute once the Cafe Modern row is added and any at-risk items are resolved — recompute before signing; the worksheet is signed under penalty of perjury.)*
 
