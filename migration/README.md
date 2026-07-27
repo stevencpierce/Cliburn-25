@@ -15,9 +15,12 @@ Premiere prep → export XML → PREFLIGHT script → import to Resolve
 
 | Path | What it does |
 |---|---|
+| `premiere_scripts/slyburn_premiere_toolkit.jsx` | Runs **inside Premiere** (see `premiere_scripts/README.md`): audits multicams (classifies which will lose media on flatten vs which are safe), marks time remaps/speed changes/disabled clips, snapshots the timeline to JSON, exports Position/Scale motion data, **reconstructs broken multicams/nests from source with verification**, and deletes disabled clips with a log. |
 | `tools/preflight_check.py` | Scans a Premiere FCP7 XML export and flags everything that won't translate (speed ramps, nests, titles/MOGRTs, freeze frames, odd transitions, mixed frame rates, offline media…) with timecodes. |
+| `tools/compare_snapshots.py` | Diffs two toolkit SNAPSHOTs (before/after flattening in Premiere) — catches multicams that flattened to nothing or went offline. |
 | `tools/compare_timelines.py` | Diffs the Premiere XML against the XML re-exported from Resolve after import. Catches dropped clips, shifted cuts, and one-frame drift. |
 | `tools/resolve_api/resolve_conform.py` | Runs against a live Resolve session: batch-imports XMLs, exports timelines back to XML, and audits timelines for offline/unlinked clips. |
+| `tools/resolve_api/apply_motion_sidecar.py` | Re-applies Premiere Position/Scale/Rotation/Opacity (which the XML loses) to the Resolve timeline from the toolkit's motion sidecar; lists keyframed moves for manual rebuild. |
 | `CHECKLIST.md` | The per-sequence conform checklist (copy one block per sequence). |
 | `TRACKER.md` | One-page status board for all sequences. |
 
