@@ -23,6 +23,7 @@
  *   Orange = time remap (speed ramp)
  *   Yellow = constant speed change
  *   Purple = disabled clip
+ *   Cyan   = OFFLINE media (also writes <seq>_offline_media.txt hit-list)
  *   Green  = reconstruction placed + verified
  *
  * Reports are written next to the .prproj in  slyburn_reports/.
@@ -138,17 +139,19 @@ function addMarker(seq, seconds, name, comment, colorIndex) {
     } catch (e) { return false; }
 }
 
-var MARKER = { GREEN: 0, RED: 1, PURPLE: 2, ORANGE: 3, YELLOW: 4, BLUE: 6 };
+var MARKER = { GREEN: 0, RED: 1, PURPLE: 2, ORANGE: 3, YELLOW: 4, BLUE: 6, CYAN: 7 };
 
 // ------------------------------------------------------------- clip probing
 
 function piKind(pi) {
-    var k = { multicam: false, merged: false, sequence: false, path: "" };
+    var k = { multicam: false, merged: false, sequence: false, path: "",
+              offline: false };
     if (!pi) return k;
     try { k.multicam = pi.isMulticamClip && pi.isMulticamClip(); } catch (e1) {}
     try { k.merged = pi.isMergedClip && pi.isMergedClip(); } catch (e2) {}
     try { k.sequence = pi.isSequence && pi.isSequence(); } catch (e3) {}
     try { k.path = pi.getMediaPath ? (pi.getMediaPath() || "") : ""; } catch (e4) {}
+    try { k.offline = pi.isOffline && pi.isOffline() ? true : false; } catch (e5) {}
     return k;
 }
 
@@ -263,16 +266,47 @@ function runAudit(seq) {
     var zero = seqZeroSeconds(seq);
     var lines = [];
     var counts = { willBreak: 0, real: 0, recon: 0, opaque: 0,
-                   remap: 0, speed: 0, disabled: 0 };
+                   remap: 0, speed: 0, disabled: 0, offline: 0 };
+    // filename -> { path, spots: ["V1 @ TC", ...] } for the offline hit-list
+    var offlineMap = {};
+    var offlineOrder = [];
 
     function log(tc, track, name, what) {
         lines.push("[" + tc + "] V" + (track + 1) + "  " + name + "\n    " + what);
+    }
+
+    function noteOffline(clip, kind, label, tc, dropMarker) {
+        counts.offline++;
+        var pname = clip.name;
+        try {
+            if (clip.projectItem && clip.projectItem.name) pname = clip.projectItem.name;
+        } catch (e) {}
+        if (!offlineMap[pname]) {
+            offlineMap[pname] = { path: kind.path || "(no path recorded)", spots: [] };
+            offlineOrder.push(pname);
+        }
+        // Don't double-mark the linked audio half of an A/V clip at the same TC
+        for (var s = 0; s < offlineMap[pname].spots.length; s++) {
+            if (offlineMap[pname].spots[s].indexOf("@ " + tc) >= 0) dropMarker = false;
+        }
+        offlineMap[pname].spots.push(label + " @ " + tc);
+        if (dropMarker) {
+            addMarker(seq, clip.start.seconds, "OFFLINE: " + pname,
+                "Offline media -- track down source file. Last known path: " +
+                (kind.path || "none"), MARKER.CYAN);
+        }
     }
 
     eachVideoClip(seq, function (clip, t) {
         var tc = toTC(clip.start.seconds, fps, zero);
         var name = clip.name;
         var kind = piKind(clip.projectItem);
+
+        if (kind.offline) {
+            noteOffline(clip, kind, "V" + (t + 1), tc, true);
+            log(tc, t, name, "OFFLINE media. Last known path: " +
+                (kind.path || "none"));
+        }
 
         if (kind.multicam || kind.sequence) {
             var cls = classifyContainer(clip);
@@ -325,12 +359,41 @@ function runAudit(seq) {
     });
 
     eachAudioClip(seq, function (clip, t) {
+        var tc = toTC(clip.start.seconds, fps, zero);
+        var kind = piKind(clip.projectItem);
+        if (kind.offline) {
+            noteOffline(clip, kind, "A" + (t + 1), tc, true);
+            lines.push("[" + tc + "] A" + (t + 1) + "  " + clip.name +
+                "\n    OFFLINE media. Last known path: " + (kind.path || "none"));
+        }
         if (clip.disabled) {
             counts.disabled++;
-            lines.push("[" + toTC(clip.start.seconds, fps, zero) + "] A" + (t + 1) +
+            lines.push("[" + tc + "] A" + (t + 1) +
                 "  " + clip.name + "\n    Disabled clip.");
         }
     });
+
+    // Dedicated offline hit-list: one entry per unique file, every spot listed
+    var offlineReportPath = null;
+    if (offlineOrder.length) {
+        var off = "OFFLINE MEDIA -- " + seq.name + "\n" +
+                  offlineOrder.length + " unique file(s), " + counts.offline +
+                  " timeline occurrence(s)\n" +
+                  "Search these names on your drives / with the editor:\n" +
+                  "----------------------------------------------------------------\n";
+        var namesOnly = "";
+        for (var oi = 0; oi < offlineOrder.length; oi++) {
+            var nm = offlineOrder[oi];
+            off += "\n" + nm + "\n    last path: " + offlineMap[nm].path + "\n";
+            for (var sp = 0; sp < offlineMap[nm].spots.length; sp++) {
+                off += "    " + offlineMap[nm].spots[sp] + "\n";
+            }
+            namesOnly += nm + "\n";
+        }
+        off += "\n----------------------------------------------------------------\n" +
+               "Bare filename list (for copy/paste searching):\n" + namesOnly;
+        offlineReportPath = writeTextFile(safeName(seq.name) + "_offline_media.txt", off);
+    }
 
     var head =
         "SLYBURN AUDIT -- " + seq.name + "\n" +
@@ -339,10 +402,14 @@ function runAudit(seq) {
         counts.opaque + " opaque\n" +
         "Time remaps: " + counts.remap + "   Speed changes: " + counts.speed +
         "   Disabled clips: " + counts.disabled + "\n" +
-        "Markers dropped on the sequence (Red/Blue/Orange/Yellow/Purple).\n" +
+        "Offline media: " + offlineOrder.length + " unique file(s), " +
+        counts.offline + " occurrence(s)\n" +
+        "Markers dropped on the sequence " +
+        "(Red/Blue/Orange/Yellow/Purple, Cyan=offline).\n" +
         "----------------------------------------------------------------\n";
     var path = writeTextFile(safeName(seq.name) + "_audit.txt", head + lines.join("\n"));
-    alert(head + "\nReport: " + path);
+    alert(head + "\nReport: " + path +
+          (offlineReportPath ? "\nOffline hit-list: " + offlineReportPath : ""));
 }
 
 // --------------------------------------------------------------- 2 SNAPSHOT
