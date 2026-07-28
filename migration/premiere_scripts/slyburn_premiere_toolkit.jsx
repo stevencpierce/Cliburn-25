@@ -36,12 +36,17 @@
 /* eslint-disable */
 
 var TICKS_PER_SECOND = 254016000000;
-var TOOLKIT_VERSION = "1.4";
+var TOOLKIT_VERSION = "1.5";
 
 // If your Premiere has no dialog support at all (no prompt), the toolkit
 // runs this tool automatically: 1=AUDIT 2=SNAPSHOT 3=MOTION 4=RECONSTRUCT
 // 5=CLEAN. Edit this number to pick a different tool in that situation.
 var DEFAULT_TOOL = 1;
+
+// With no dialogs there is no way to confirm deletions interactively, so
+// CLEAN only lists what it WOULD delete. After reviewing the list, set
+// this to true and run CLEAN again to actually delete.
+var CLEAN_CONFIRM = false;
 
 // Progress breadcrumbs to VS Code's Debug Console -- the last line printed
 // tells us where a crash happened even without a line number.
@@ -737,9 +742,14 @@ function runClean(seq) {
         proceed = confirm("Delete " + doomed.length + " disabled clip(s)?\n\n" +
                           listing + "\nA log will be written either way.");
     } catch (e) {
-        var ans = prompt("Delete " + doomed.length + " disabled clip(s)?\n\n" +
-                         listing + "\nType YES to delete:", "", "SLYBURN Toolkit");
-        proceed = ans !== null && String(ans).toUpperCase() === "YES";
+        // No dialogs in this Premiere: only delete when the editor has
+        // explicitly set CLEAN_CONFIRM = true at the top of this file.
+        proceed = CLEAN_CONFIRM;
+        if (!proceed) {
+            trace("CLEAN: dialogs unavailable and CLEAN_CONFIRM is false -- " +
+                  "writing the list only, deleting nothing. Review the list, " +
+                  "set CLEAN_CONFIRM = true, and run CLEAN again to delete.");
+        }
     }
     if (!proceed) {
         writeTextFile(safeName(seq.name) + "_disabled_clips.txt",
