@@ -37,6 +37,18 @@
 
 var TICKS_PER_SECOND = 254016000000;
 
+// If your Premiere has no dialog support at all (no prompt), the toolkit
+// runs this tool automatically: 1=AUDIT 2=SNAPSHOT 3=MOTION 4=RECONSTRUCT
+// 5=CLEAN. Edit this number to pick a different tool in that situation.
+var DEFAULT_TOOL = 1;
+
+// alert() may not exist in every Premiere scripting engine; fall back to
+// the debugger console (visible in VS Code's Debug Console panel).
+function say(msg) {
+    try { $.global.alert(msg); }
+    catch (e) { $.writeln("\n===== SLYBURN =====\n" + msg + "\n==================="); }
+}
+
 // ---------------------------------------------------------------- utilities
 
 function seqFps(seq) {
@@ -432,7 +444,7 @@ function runAudit(seq) {
         "(Red/Blue/Orange/Yellow/Purple, Cyan=offline).\n" +
         "----------------------------------------------------------------\n";
     var path = writeTextFile(safeName(seq.name) + "_audit.txt", head + lines.join("\n"));
-    alert(head + "\nReport: " + path +
+    say(head + "\nReport: " + path +
           (offlineReportPath ? "\nOffline hit-list: " + offlineReportPath : ""));
 }
 
@@ -441,8 +453,11 @@ function runAudit(seq) {
 function runSnapshot(seq) {
     var fps = seqFps(seq);
     var zero = seqZeroSeconds(seq);
-    var tag = prompt("Snapshot label (e.g. before_flatten / after_flatten):",
+    var tag;
+    try {
+        tag = prompt("Snapshot label (e.g. before_flatten / after_flatten):",
                      "before_flatten");
+    } catch (ePrompt) { tag = "snapshot"; }
     if (!tag) return;
     var clips = [];
     function grab(kindLabel) {
@@ -469,7 +484,7 @@ function runSnapshot(seq) {
     var doc = { sequence: seq.name, fps: fps, label: tag, clips: clips };
     var path = writeTextFile(safeName(seq.name) + "_snapshot_" + safeName(tag) + ".json",
                              toJson(doc, ""));
-    alert("Snapshot (" + clips.length + " clips) -> " + path +
+    say("Snapshot (" + clips.length + " clips) -> " + path +
           "\n\nDiff two snapshots with:\n  python3 compare_snapshots.py before.json after.json");
 }
 
@@ -552,7 +567,7 @@ function runMotionExport(seq) {
     var doc = { sequence: seq.name, fps: fps, frameWidth: w, frameHeight: h,
                 entries: entries };
     var path = writeTextFile(safeName(seq.name) + "_motion.json", toJson(doc, ""));
-    alert("Motion sidecar: " + entries.length + " clip(s) with non-default " +
+    say("Motion sidecar: " + entries.length + " clip(s) with non-default " +
           "Position/Scale/Rotation/Opacity.\n-> " + path +
           "\n\nAfter importing the XML into Resolve, run:\n" +
           "  python3 apply_motion_sidecar.py " + safeName(seq.name) + "_motion.json");
@@ -572,7 +587,7 @@ function runReconstruct(seq) {
     var fixIndex = seq.videoTracks.numTracks - 1;
     var fixTrack = seq.videoTracks[fixIndex];
     if (fixTrack.clips.numItems > 0) {
-        alert("The topmost video track (V" + (fixIndex + 1) + ") is not empty.\n" +
+        say("The topmost video track (V" + (fixIndex + 1) + ") is not empty.\n" +
               "Add an empty video track at the top (Sequence > Add Tracks) " +
               "to receive the reconstructed clips, then run this again.");
         return;
@@ -590,7 +605,7 @@ function runReconstruct(seq) {
     });
 
     if (!targets.length) {
-        alert("No reconstructable multicam/nested clips found.\n" +
+        say("No reconstructable multicam/nested clips found.\n" +
               "(Run AUDIT to see how each container was classified.)");
         return;
     }
@@ -678,7 +693,7 @@ function runReconstruct(seq) {
         "----------------------------------------------------------------\n";
     var path = writeTextFile(safeName(seq.name) + "_reconstruct.txt",
                              head + lines.join("\n"));
-    alert(head + "\nReport: " + path);
+    say(head + "\nReport: " + path);
 }
 
 // ----------------------------------------------------------------- 5 CLEAN
@@ -700,7 +715,7 @@ function runClean(seq) {
     eachVideoClip(seq, collect("V"));
     eachAudioClip(seq, collect("A"));
 
-    if (!doomed.length) { alert("No disabled clips found. Nothing to clean."); return; }
+    if (!doomed.length) { say("No disabled clips found. Nothing to clean."); return; }
 
     var listing = "";
     for (var i = 0; i < doomed.length; i++) {
@@ -734,7 +749,7 @@ function runClean(seq) {
     var head = "SLYBURN CLEAN -- " + seq.name + "\nDeleted " + removed +
                " disabled clip(s), " + failed + " failed.\n\n";
     var path = writeTextFile(safeName(seq.name) + "_deleted_clips.txt", head + listing);
-    alert(head + "Log of every removed clip: " + path);
+    say(head + "Log of every removed clip: " + path);
 }
 
 // -------------------------------------------------------------------- menu
@@ -742,31 +757,40 @@ function runClean(seq) {
 function mainMenu() {
     if (typeof app === "undefined" || !app || !app.project) {
         try {
-            alert("Not connected to Premiere Pro.\nMake sure Premiere is fully " +
+            say("Not connected to Premiere Pro.\nMake sure Premiere is fully " +
                   "open BEFORE pressing F5, and that the debugger targets " +
                   "'Adobe Premiere Pro'.");
         } catch (e) { $.writeln("Not connected to Premiere Pro."); }
         return;
     }
     var seq = app.project.activeSequence;
-    if (!seq) { alert("Open a sequence first (it must be the active sequence)."); return; }
+    if (!seq) { say("Open a sequence first (it must be the active sequence)."); return; }
 
     // Modern Premiere has no ScriptUI (no Window constructor) -- use the
-    // built-in prompt for the menu instead.
-    var answer = prompt(
-        "SLYBURN Premiere Toolkit -- " + seq.name + "\n\n" +
-        "Type a number and press OK:\n\n" +
-        "1 = AUDIT: mark multicams (will-break vs real), remaps, speed,\n" +
-        "        disabled clips, offline media\n" +
-        "2 = SNAPSHOT: dump timeline to JSON (run before AND after flatten)\n" +
-        "3 = MOTION: export Position/Scale/Rotation/Opacity sidecar\n" +
-        "4 = RECONSTRUCT: rebuild broken multicams/nests onto top track\n" +
-        "5 = CLEAN: delete disabled clips (with log)",
-        "1", "SLYBURN Toolkit");
+    // built-in prompt for the menu instead. If even prompt is missing,
+    // fall back to DEFAULT_TOOL (set at the top of this file).
+    var answer = null;
+    try {
+        answer = prompt(
+            "SLYBURN Premiere Toolkit -- " + seq.name + "\n\n" +
+            "Type a number and press OK:\n\n" +
+            "1 = AUDIT: mark multicams (will-break vs real), remaps, speed,\n" +
+            "        disabled clips, offline media\n" +
+            "2 = SNAPSHOT: dump timeline to JSON (run before AND after flatten)\n" +
+            "3 = MOTION: export Position/Scale/Rotation/Opacity sidecar\n" +
+            "4 = RECONSTRUCT: rebuild broken multicams/nests onto top track\n" +
+            "5 = CLEAN: delete disabled clips (with log)",
+            "1", "SLYBURN Toolkit");
+    } catch (ePrompt) {
+        say("This Premiere has no prompt dialogs -- running tool " +
+            DEFAULT_TOOL + " (edit DEFAULT_TOOL at the top of the .jsx to " +
+            "pick a different one).");
+        answer = String(DEFAULT_TOOL);
+    }
     if (answer === null) return;
     var pick = parseInt(String(answer).replace(/[^0-9]/g, ""), 10) - 1;
     if (isNaN(pick) || pick < 0 || pick > 4) {
-        alert("Didn't understand '" + answer + "' -- run again and type 1-5.");
+        say("Didn't understand '" + answer + "' -- run again and type 1-5.");
         return;
     }
     CLIP_ERRORS.length = 0;
@@ -777,7 +801,7 @@ function mainMenu() {
         else if (pick === 3) runReconstruct(seq);
         else if (pick === 4) runClean(seq);
     } catch (e) {
-        alert("SLYBURN toolkit hit an error it couldn't recover from:\n\n" +
+        say("SLYBURN toolkit hit an error it couldn't recover from:\n\n" +
               describeError(e) +
               "\n\nSend this message (and the line number, if shown) to Claude " +
               "to get a fix.");
@@ -785,7 +809,7 @@ function mainMenu() {
     if (CLIP_ERRORS.length) {
         var errPath = writeTextFile(safeName(seq.name) + "_clip_errors.txt",
                                     CLIP_ERRORS.join("\n"));
-        alert(CLIP_ERRORS.length + " clip(s) could not be fully read and were " +
+        say(CLIP_ERRORS.length + " clip(s) could not be fully read and were " +
               "skipped (everything else completed).\nDetails: " + errPath +
               "\nSend that file to Claude to widen compatibility.");
     }
