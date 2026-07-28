@@ -707,8 +707,16 @@ function runClean(seq) {
         listing += "[" + doomed[i].tc + "] " + doomed[i].label + "  " +
                    doomed[i].name + "\n";
     }
-    if (!confirm("Delete " + doomed.length + " disabled clip(s)?\n\n" + listing +
-                 "\nA log will be written either way.")) {
+    var proceed = false;
+    try {
+        proceed = confirm("Delete " + doomed.length + " disabled clip(s)?\n\n" +
+                          listing + "\nA log will be written either way.");
+    } catch (e) {
+        var ans = prompt("Delete " + doomed.length + " disabled clip(s)?\n\n" +
+                         listing + "\nType YES to delete:", "", "SLYBURN Toolkit");
+        proceed = ans !== null && String(ans).toUpperCase() === "YES";
+    }
+    if (!proceed) {
         writeTextFile(safeName(seq.name) + "_disabled_clips.txt",
                       "DISABLED CLIPS (not deleted):\n" + listing);
         return;
@@ -743,30 +751,24 @@ function mainMenu() {
     var seq = app.project.activeSequence;
     if (!seq) { alert("Open a sequence first (it must be the active sequence)."); return; }
 
-    var dlg = new Window("dialog", "SLYBURN Premiere Toolkit -- " + seq.name);
-    dlg.orientation = "column";
-    dlg.alignChildren = "fill";
-    var choices = [
-        "1. AUDIT: mark multicams (will-break vs real), remaps, speed, disabled",
-        "2. SNAPSHOT: dump timeline to JSON (run before AND after flatten)",
-        "3. MOTION: export Position/Scale/Rotation/Opacity sidecar for Resolve",
-        "4. RECONSTRUCT: rebuild broken multicams/nests onto top track + verify",
-        "5. CLEAN: delete disabled clips (with log)"
-    ];
-    var radios = [];
-    for (var i = 0; i < choices.length; i++) {
-        radios.push(dlg.add("radiobutton", undefined, choices[i]));
+    // Modern Premiere has no ScriptUI (no Window constructor) -- use the
+    // built-in prompt for the menu instead.
+    var answer = prompt(
+        "SLYBURN Premiere Toolkit -- " + seq.name + "\n\n" +
+        "Type a number and press OK:\n\n" +
+        "1 = AUDIT: mark multicams (will-break vs real), remaps, speed,\n" +
+        "        disabled clips, offline media\n" +
+        "2 = SNAPSHOT: dump timeline to JSON (run before AND after flatten)\n" +
+        "3 = MOTION: export Position/Scale/Rotation/Opacity sidecar\n" +
+        "4 = RECONSTRUCT: rebuild broken multicams/nests onto top track\n" +
+        "5 = CLEAN: delete disabled clips (with log)",
+        "1", "SLYBURN Toolkit");
+    if (answer === null) return;
+    var pick = parseInt(String(answer).replace(/[^0-9]/g, ""), 10) - 1;
+    if (isNaN(pick) || pick < 0 || pick > 4) {
+        alert("Didn't understand '" + answer + "' -- run again and type 1-5.");
+        return;
     }
-    radios[0].value = true;
-    var row = dlg.add("group");
-    row.alignment = "right";
-    var okBtn = row.add("button", undefined, "Run", { name: "ok" });
-    row.add("button", undefined, "Cancel", { name: "cancel" });
-    okBtn.onClick = function () { dlg.close(1); };
-    if (dlg.show() !== 1) return;
-
-    var pick = 0;
-    for (var j = 0; j < radios.length; j++) if (radios[j].value) pick = j;
     CLIP_ERRORS.length = 0;
     try {
         if (pick === 0) runAudit(seq);
