@@ -21,6 +21,7 @@ Premiere prep → export XML → PREFLIGHT script → import to Resolve
 | `tools/compare_timelines.py` | Diffs the Premiere XML against the XML re-exported from Resolve after import. Catches dropped clips, shifted cuts, and one-frame drift. |
 | `tools/resolve_api/resolve_conform.py` | Runs against a live Resolve session: batch-imports XMLs, exports timelines back to XML, and audits timelines for offline/unlinked clips. |
 | `tools/resolve_api/apply_motion_sidecar.py` | Re-applies Premiere Position/Scale/Rotation/Opacity (which the XML loses) to the Resolve timeline from the toolkit's motion sidecar; lists keyframed moves for manual rebuild. |
+| `tools/clip_classifier.py` + `specs/track_spec.example.json` | Classifies every clip in a SNAPSHOT (DX/SOT/PERF/NAT/SFX/MX for audio; A-roll/B-roll/archival/GFX for video) from filenames, paths, extensions, and track position, then checks placement against the show's track spec and reports every misplaced clip with its target track. Optional `--claude` sends unresolved clips (metadata only — Claude can't hear audio) to the Anthropic API (Fable 5 by default) for reasoning. The spec file is data — edit it to the show's real layout. |
 | `CHECKLIST.md` | The per-sequence conform checklist (copy one block per sequence). |
 | `TRACKER.md` | One-page status board for all sequences. |
 

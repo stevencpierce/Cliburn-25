@@ -1,0 +1,85 @@
+{
+  "_comment": "Slyburn track-layout spec. EDIT THIS to match your actual audio spec — categories, keywords, and track mapping are all data, nothing is hardcoded in the script. Replace with the real show spec and rename to track_spec.json.",
+
+  "categories": {
+    "DX": {
+      "description": "Dialogue: sit-down interview audio, narration/VO, scratch VO.",
+      "keywords": ["interview", "intv", "vo_", "_vo", "narration", "scratch", "dialogue", "dx_"]
+    },
+    "SOT": {
+      "description": "Sync/verite sound-on-tape: field audio married to picture, presser audio, on-the-fly comments backstage or in rehearsal.",
+      "keywords": ["sot", "verite", "sync", "presser", "backstage", "rehearsal"]
+    },
+    "PERF": {
+      "description": "Live musical performance recordings: recital, concerto, competition rounds, piano performance audio (board feeds, hall mics).",
+      "keywords": ["perf", "recital", "concerto", "round", "hall", "board", "piano", "mvt", "movement", "prelim", "semifinal", "final"]
+    },
+    "NAT": {
+      "description": "Natural sound and ambience: room tone, crowd, applause beds, atmospheres, exteriors.",
+      "keywords": ["nat", "amb", "atmos", "roomtone", "room_tone", "crowd", "applause", "walla", "ext_", "tone"]
+    },
+    "SFX": {
+      "description": "Sound effects and design elements: whooshes, risers, hits, transitions, designed sweeteners.",
+      "keywords": ["sfx", "fx_", "whoosh", "riser", "hit_", "swell", "boom", "transition", "sweetener", "drone"]
+    },
+    "MX": {
+      "description": "Music score and needle drops used AS SCORE (not performance sync): library cues, composed score, licensed tracks.",
+      "keywords": ["mx_", "_mx", "music", "score", "cue", "needle", "track_", "song", "lib_", "stem"]
+    }
+  },
+
+  "audio_tracks": {
+    "A1-A4": ["DX", "SOT"],
+    "A5-A6": ["PERF"],
+    "A7-A8": ["NAT"],
+    "A9-A10": ["SFX"],
+    "A11-A12": ["MX"]
+  },
+
+  "video_categories": {
+    "AROLL": {
+      "description": "Primary interview/talking-head picture.",
+      "keywords": ["interview", "intv", "sitdown"]
+    },
+    "BROLL": {
+      "description": "B-roll, verite coverage, performance coverage shot for this film.",
+      "keywords": ["broll", "b-roll", "verite", "coverage"]
+    },
+    "ARCHIVAL": {
+      "description": "Archival footage, stills, scans, newsreel, licensed historical material.",
+      "keywords": ["archival", "archive", "arch_", "still", "scan", "newsreel", "getty", "ap_"]
+    },
+    "GFX": {
+      "description": "Graphics, titles, lower thirds, maps, animations.",
+      "keywords": ["gfx", "title", "lower", "l3rd", "map_", "anim"]
+    }
+  },
+
+  "video_tracks": {
+    "V1-V2": ["AROLL", "BROLL", "ARCHIVAL"],
+    "V3": ["GFX"]
+  },
+
+  "path_hints": {
+    "_comment": "Folder-name fragments (matched against the media path) that are a STRONG signal, checked before name keywords.",
+    "MUSIC": "MX", "SCORE": "MX", "MX": "MX",
+    "SFX": "SFX", "SOUND_FX": "SFX",
+    "NAT": "NAT", "AMBIENCE": "NAT", "ROOMTONE": "NAT",
+    "INTERVIEWS": "DX", "VO": "DX",
+    "PERFORMANCE": "PERF", "RECITALS": "PERF", "BOARD_FEEDS": "PERF",
+    "ARCHIVAL": "ARCHIVAL", "STILLS": "ARCHIVAL",
+    "GFX": "GFX", "GRAPHICS": "GFX", "TITLES": "GFX"
+  },
+
+  "extension_hints": {
+    "_comment": "Extensions that lean a category when nothing else matches. Video extensions are ignored for audio clips and vice versa.",
+    ".mp3": "MX",
+    ".m4a": "MX",
+    ".aif": "MX",
+    ".aiff": "MX",
+    ".png": "GFX",
+    ".psd": "GFX",
+    ".jpg": "ARCHIVAL",
+    ".tif": "ARCHIVAL"
+  }
+}
