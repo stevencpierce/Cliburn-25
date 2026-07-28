@@ -110,9 +110,11 @@ function toJson(v, indent) {
 }
 
 function reportsFolder() {
-    var base;
-    try { base = new File(app.project.path).parent; }
-    catch (e) { base = Folder.desktop; }
+    var base = null;
+    try {
+        if (app.project.path) base = new File(app.project.path).parent;
+    } catch (e) {}
+    if (!base || !base.exists) base = Folder.desktop;
     var f = new Folder(base.fsName + "/slyburn_reports");
     if (!f.exists) f.create();
     return f;
@@ -245,17 +247,39 @@ function classifyContainer(outerClip) {
     return result;
 }
 
+// One unreadable clip must not kill a whole run: errors are collected here
+// and reported at the end instead of aborting.
+var CLIP_ERRORS = [];
+
+function describeError(e) {
+    var where = "";
+    try { if (e.line) where = " (toolkit line " + e.line + ")"; } catch (x) {}
+    return String(e) + where;
+}
+
 function eachVideoClip(seq, fn) {
     for (var t = 0; t < seq.videoTracks.numTracks; t++) {
         var trk = seq.videoTracks[t];
-        for (var c = 0; c < trk.clips.numItems; c++) fn(trk.clips[c], t, trk, c);
+        for (var c = 0; c < trk.clips.numItems; c++) {
+            try { fn(trk.clips[c], t, trk, c); }
+            catch (e) {
+                CLIP_ERRORS.push("V" + (t + 1) + " clip " + (c + 1) + ": " +
+                                 describeError(e));
+            }
+        }
     }
 }
 
 function eachAudioClip(seq, fn) {
     for (var t = 0; t < seq.audioTracks.numTracks; t++) {
         var trk = seq.audioTracks[t];
-        for (var c = 0; c < trk.clips.numItems; c++) fn(trk.clips[c], t, trk, c);
+        for (var c = 0; c < trk.clips.numItems; c++) {
+            try { fn(trk.clips[c], t, trk, c); }
+            catch (e) {
+                CLIP_ERRORS.push("A" + (t + 1) + " clip " + (c + 1) + ": " +
+                                 describeError(e));
+            }
+        }
     }
 }
 
@@ -708,6 +732,14 @@ function runClean(seq) {
 // -------------------------------------------------------------------- menu
 
 function mainMenu() {
+    if (typeof app === "undefined" || !app || !app.project) {
+        try {
+            alert("Not connected to Premiere Pro.\nMake sure Premiere is fully " +
+                  "open BEFORE pressing F5, and that the debugger targets " +
+                  "'Adobe Premiere Pro'.");
+        } catch (e) { $.writeln("Not connected to Premiere Pro."); }
+        return;
+    }
     var seq = app.project.activeSequence;
     if (!seq) { alert("Open a sequence first (it must be the active sequence)."); return; }
 
@@ -735,11 +767,26 @@ function mainMenu() {
 
     var pick = 0;
     for (var j = 0; j < radios.length; j++) if (radios[j].value) pick = j;
-    if (pick === 0) runAudit(seq);
-    else if (pick === 1) runSnapshot(seq);
-    else if (pick === 2) runMotionExport(seq);
-    else if (pick === 3) runReconstruct(seq);
-    else if (pick === 4) runClean(seq);
+    CLIP_ERRORS.length = 0;
+    try {
+        if (pick === 0) runAudit(seq);
+        else if (pick === 1) runSnapshot(seq);
+        else if (pick === 2) runMotionExport(seq);
+        else if (pick === 3) runReconstruct(seq);
+        else if (pick === 4) runClean(seq);
+    } catch (e) {
+        alert("SLYBURN toolkit hit an error it couldn't recover from:\n\n" +
+              describeError(e) +
+              "\n\nSend this message (and the line number, if shown) to Claude " +
+              "to get a fix.");
+    }
+    if (CLIP_ERRORS.length) {
+        var errPath = writeTextFile(safeName(seq.name) + "_clip_errors.txt",
+                                    CLIP_ERRORS.join("\n"));
+        alert(CLIP_ERRORS.length + " clip(s) could not be fully read and were " +
+              "skipped (everything else completed).\nDetails: " + errPath +
+              "\nSend that file to Claude to widen compatibility.");
+    }
 }
 
 mainMenu();
