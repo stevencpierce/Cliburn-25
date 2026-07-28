@@ -36,11 +36,18 @@
 /* eslint-disable */
 
 var TICKS_PER_SECOND = 254016000000;
+var TOOLKIT_VERSION = "1.4";
 
 // If your Premiere has no dialog support at all (no prompt), the toolkit
 // runs this tool automatically: 1=AUDIT 2=SNAPSHOT 3=MOTION 4=RECONSTRUCT
 // 5=CLEAN. Edit this number to pick a different tool in that situation.
 var DEFAULT_TOOL = 1;
+
+// Progress breadcrumbs to VS Code's Debug Console -- the last line printed
+// tells us where a crash happened even without a line number.
+function trace(msg) {
+    try { $.writeln("[SLYBURN] " + msg); } catch (e) {}
+}
 
 // alert() may not exist in every Premiere scripting engine; fall back to
 // the debugger console (visible in VS Code's Debug Console panel).
@@ -272,6 +279,7 @@ function describeError(e) {
 function eachVideoClip(seq, fn) {
     for (var t = 0; t < seq.videoTracks.numTracks; t++) {
         var trk = seq.videoTracks[t];
+        trace("scanning V" + (t + 1) + " (" + trk.clips.numItems + " clips)");
         for (var c = 0; c < trk.clips.numItems; c++) {
             try { fn(trk.clips[c], t, trk, c); }
             catch (e) {
@@ -285,6 +293,7 @@ function eachVideoClip(seq, fn) {
 function eachAudioClip(seq, fn) {
     for (var t = 0; t < seq.audioTracks.numTracks; t++) {
         var trk = seq.audioTracks[t];
+        trace("scanning A" + (t + 1) + " (" + trk.clips.numItems + " clips)");
         for (var c = 0; c < trk.clips.numItems; c++) {
             try { fn(trk.clips[c], t, trk, c); }
             catch (e) {
@@ -444,6 +453,7 @@ function runAudit(seq) {
         "(Red/Blue/Orange/Yellow/Purple, Cyan=offline).\n" +
         "----------------------------------------------------------------\n";
     var path = writeTextFile(safeName(seq.name) + "_audit.txt", head + lines.join("\n"));
+    trace("AUDIT complete -- report: " + path);
     say(head + "\nReport: " + path +
           (offlineReportPath ? "\nOffline hit-list: " + offlineReportPath : ""));
 }
@@ -765,6 +775,7 @@ function mainMenu() {
     }
     var seq = app.project.activeSequence;
     if (!seq) { say("Open a sequence first (it must be the active sequence)."); return; }
+    trace("toolkit v" + TOOLKIT_VERSION + " connected -- sequence: " + seq.name);
 
     // Modern Premiere has no ScriptUI (no Window constructor) -- use the
     // built-in prompt for the menu instead. If even prompt is missing,
