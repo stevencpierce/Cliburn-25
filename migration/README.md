@@ -11,6 +11,32 @@ Premiere prep → export XML → PREFLIGHT script → import to Resolve
 → export XML back out of Resolve → COMPARE script → fix punch list → sign off
 ```
 
+## Quick start — the whole loop is one command
+
+`slyburn_check.py` wraps both checks. Nothing runs inside Premiere or
+Resolve — it only reads XML files, so there's nothing to install beyond
+Python 3 (preinstalled on macOS).
+
+1. **Premiere:** File → Export → Final Cut Pro XML… → `SEQ01_premiere.xml`
+2. ```bash
+   python3 slyburn_check.py SEQ01_premiere.xml
+   ```
+   Everything that won't survive the trip is listed with timecodes
+   (`SEQ01_premiere_preflight.md` is the punch list). Fix/bake those in
+   Premiere, re-export, re-run until it's clean enough.
+3. **Resolve:** File → Import → Timeline (the Premiere XML). Then
+   right-click the timeline in the Media Pool → Timelines → Export →
+   Final Cut Pro 7 XML… → `SEQ01_resolve.xml`
+4. ```bash
+   python3 slyburn_check.py SEQ01_premiere.xml SEQ01_resolve.xml
+   ```
+   Repeats the pre-flight AND diffs the two timelines clip-by-clip:
+   missing/extra clips, shifted cuts, wrong source frames. Fix in Resolve,
+   re-export, re-run. **"Timelines MATCH" = the conform is verified.**
+
+Everything below (Premiere-side toolkit, Resolve API scripts, classifier)
+is optional tooling around that core loop.
+
 ## What's in here
 
 | Path | What it does |
